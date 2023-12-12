@@ -165,17 +165,16 @@ static bool isIdentityMapWithZeros(AffineMap map) {
     return false;
   unsigned dimsSeen = 0;
   for (auto result : map.getResults()) {
-    bool isValidExpr = TypeSwitch<AffineExpr, bool>(result)
-                           .Case<AffineDimExpr>([&dimsSeen](auto dimExpr) {
-                             if (dimExpr.getPosition() != dimsSeen)
-                               return false;
-                             dimsSeen++;
-                             return true;
-                           })
-                           .Case<AffineConstantExpr>([](auto constExpr) {
-                             return constExpr.getValue() == 0;
-                           })
-                           .Default([](AffineExpr) { return false; });
+    bool isValidExpr = false;
+    if (auto dimExpr = dyn_cast<AffineDimExpr>(result)) {
+      if (dimExpr.getPosition() == dimsSeen) {
+        dimsSeen++;
+        isValidExpr = true;
+      }
+    } else if (auto constExpr = dyn_cast<AffineConstantExpr>(result)) {
+      isValidExpr = constExpr.getValue() == 0;
+    }
+
     if (!isValidExpr)
       return false;
   }
@@ -236,7 +235,7 @@ static FailureOr<llvm::SmallBitVector> getTileConfigProducer(
   llvm::SmallBitVector tileConfigProducer(numLoopsProd);
   SmallVector<OpFoldResult> tileProducer(numLoopsProd);
   for (auto expr : llvm::enumerate(consumerOperandMap->getResults())) {
-    auto dim = expr.value().cast<AffineDimExpr>();
+    auto dim = cast<AffineDimExpr>(expr.value());
     tileConfigProducer[expr.index()] = tileSpecConsumer[dim.getPosition()];
     tileProducer[expr.index()] = tileSizes.at(consumer)[dim.getPosition()];
   }
@@ -645,7 +644,7 @@ getTileForEltWiseConsumer(Operation *consumer, Operation *producer,
   SmallVector<OpFoldResult> eltWiseTiles;
   for (auto expr : outputMap.getResults()) {
     eltWiseTiles.push_back(
-        tilesProducer[expr.cast<AffineDimExpr>().getPosition()]);
+        tilesProducer[cast<AffineDimExpr>(expr).getPosition()]);
   }
   return eltWiseTiles;
 }

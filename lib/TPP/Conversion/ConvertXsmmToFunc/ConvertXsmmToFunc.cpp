@@ -45,7 +45,7 @@ static SmallVector<Type> extractInvokeOperandTypes(OpBuilder &builder,
     if (auto memrefType = operandType.dyn_cast<MemRefType>()) {
       // TODO: non-POD will require an LLVMTypeConverter.
       Type basePtrType =
-          LLVM::LLVMPointerType::get(memrefType.getElementType());
+          LLVM::LLVMPointerType::get(builder.getContext());
       results.push_back(basePtrType);
       results.push_back(builder.getIndexType()); // offset
     } else {

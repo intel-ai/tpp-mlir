@@ -35,16 +35,13 @@ static SmallVector<Type> extractGemmOperandTypes(OpBuilder &builder,
   results.push_back(indexType); // M
   results.push_back(indexType); // N
   results.push_back(indexType); // K
-  results.push_back(LLVM::LLVMPointerType::get(
-      operands[0].getType().cast<MemRefType>().getElementType())); // A
+  results.push_back(LLVM::LLVMPointerType::get(builder.getContext())); // A
   results.push_back(builder.getIndexType());                       // offset A
   results.push_back(indexType);                                    // lda
-  results.push_back(LLVM::LLVMPointerType::get(
-      operands[0].getType().cast<MemRefType>().getElementType())); // B
+  results.push_back(LLVM::LLVMPointerType::get(builder.getContext())); // B
   results.push_back(builder.getIndexType());                       // offset B
   results.push_back(indexType);                                    // ldb
-  results.push_back(LLVM::LLVMPointerType::get(
-      operands[0].getType().cast<MemRefType>().getElementType())); // C
+  results.push_back(LLVM::LLVMPointerType::get(builder.getContext())); // C
   results.push_back(builder.getIndexType());                       // offset C
   results.push_back(indexType);                                    // ldc
   return results;
