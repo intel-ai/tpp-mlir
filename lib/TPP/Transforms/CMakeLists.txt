@@ -33,7 +33,21 @@ add_mlir_library(TPPTransforms
 
   LINK_LIBS PUBLIC
     ${mlir_dialect_libs}
+    MLIRSupport
     MLIRBufferizationToMemRef
     MLIRBufferizationPipelines
+    TPPTppDialect
     TPPTransformsUtils
+    TPPXsmmDialect
+    TPPCheckToLoops
+    TPPLinalgToFunc
+    TPPLinalgToTpp
+    TPPLinalgToXSMM
+    TPPMemRefToXSMM
+    TPPPerfToFunc
+    TPPPerfToLoop
+    TPPTppToLoops
+    TPPTppToXSMM
+    TPPXsmmToFunc
+    TPPLinalgXTransformOps
   )

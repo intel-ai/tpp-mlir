@@ -293,7 +293,7 @@ Value MLIRBench::createTimerLoop(unsigned iters) {
   builder.setInsertionPointToStart(bench.getBody());
 
   // Call the kernel, ignore output
-  auto *call = callKernel();
+  [[maybe_unused]] auto *call = callKernel();
   assert(call && "Failed to generate a kernel call");
 
   // Revert insertion point and return the accumulation ID
@@ -341,7 +341,7 @@ LogicalResult MLIRBench::printShapedType(mlir::Value val) {
   Type outElmType = outputType.getElementType();
 
   // TODO: Support more than 2D sizes
-  auto rank = outputType.getRank();
+  [[maybe_unused]] auto rank = outputType.getRank();
   assert((rank == 1 || rank == 2) && "Only supports 1D/2D tensors for now");
 
   // Read into a vector and print output

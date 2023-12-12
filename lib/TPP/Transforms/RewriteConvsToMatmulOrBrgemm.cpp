@@ -378,6 +378,7 @@ struct CollapseFilterAndImage : OpRewritePattern<linalg::GenericOp> {
     if (operandType.isa<RankedTensorType>())
       return RankedTensorType::get(newShape, operandType.getElementType());
     assert(false && "expect tensor or memref");
+    abort();
   }
 
   LogicalResult matchAndRewrite(linalg::GenericOp linalgOp,

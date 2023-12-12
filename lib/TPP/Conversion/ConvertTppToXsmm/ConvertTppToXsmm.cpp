@@ -245,6 +245,7 @@ struct ConvertTppFusedBrgemmOp : public OpRewritePattern<tpp::FusedBrgemmOp> {
     if (kind == tpp::FusedBinaryOpKind::ADD)
       return xsmm::BinaryKindAttr::get(ctx, xsmm::BinaryKind::ADD);
     assert(false && "invalid binary kind");
+    abort();
   }
 
   xsmm::UnaryKindAttr getUnaryKind(RewriterBase &rewriter,
@@ -256,6 +257,7 @@ struct ConvertTppFusedBrgemmOp : public OpRewritePattern<tpp::FusedBrgemmOp> {
     if (kind == tpp::FusedUnaryOpKind::RELU)
       return xsmm::UnaryKindAttr::get(ctx, xsmm::UnaryKind::RELU);
     assert(false && "invalid unary kind");
+    abort();
   }
 
   LogicalResult matchAndRewrite(tpp::FusedBrgemmOp brgemmOp,

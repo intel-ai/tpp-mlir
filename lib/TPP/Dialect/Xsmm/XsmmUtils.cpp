@@ -46,7 +46,7 @@ FailureOr<UnaryInfo> getUnaryInfo(Value input, Value output,
   Type outputType = output.getType();
 
   assert(isa<ShapedType>(outputType));
-  auto outputShapedType = output.getType().cast<ShapedType>();
+  auto outputShapedType = outputType.cast<ShapedType>();
   if (outputShapedType.getRank() != 2 || !outputShapedType.hasStaticShape() ||
       !isa<FloatType>(outputShapedType.getElementType())) {
     return failure();
@@ -92,7 +92,7 @@ FailureOr<BinaryInfo> getBinaryInfo(Value lhs, BinaryFlags lhsFlag, Value rhs,
   Type outputType = output.getType();
 
   assert(isa<ShapedType>(outputType));
-  auto outputShapedType = output.getType().cast<ShapedType>();
+  auto outputShapedType = outputType.cast<ShapedType>();
   if (outputShapedType.getRank() != 2 || !outputShapedType.hasStaticShape() ||
       !isa<FloatType>(outputShapedType.getElementType())) {
     return failure();
@@ -264,6 +264,7 @@ FailureOr<BinaryFlags> getBinaryFlags(Type operandType, Type outputType,
         return xsmm::BinaryFlags::BCAST_COL_IN_1;
     }
     assert(false && "unrechable");
+    abort();
   };
 
   if (bOperandShape == shapeOutput)
