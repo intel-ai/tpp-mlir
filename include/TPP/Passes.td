@@ -463,7 +463,7 @@ def GPUToSPIRV : Pass<"gpu-to-spirv", "ModuleOp"> {
   ];
 }
 
-def SetSPIRVCapabilities : Pass<"set-spirv-capabilities", "ModuleOp"> {
+def SetSPIRVCapabilities : Pass<"tpp-set-spirv-capabilities", "ModuleOp"> {
   let summary = "Set SPIR-V capabilities.";
   let options = [
     Option<"clientAPI", "client-api", "std::string",
